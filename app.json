@@ -31,7 +31,7 @@
         {
           "image": "./assets/images/vitacheck-logo.jpg",
           "resizeMode": "contain",
-          "backgroundColor": "white"
+          "backgroundColor": "#ffffff"
         }
       ]
     ],
