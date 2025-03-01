@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "HelloWorld",
-    "slug": "expo-template-default",
+    "name": "VitaCheck App",
+    "slug": "vitacheck-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -9,13 +9,15 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.davidparraorg.vitacheckapp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.davidparraorg.vitacheckapp"
     },
     "web": {
       "bundler": "metro",
@@ -36,6 +38,18 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9d7fa976-29b8-4086-9438-205f868d2f84"
+      }
+    },
+    "owner": "davidparra-org",
+    "updates": {
+      "url": "https://u.expo.dev/9d7fa976-29b8-4086-9438-205f868d2f84"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
     }
   }
 }
