@@ -5,7 +5,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function RootLayout() {
   return (
     <SafeAreaView style={styles.safeArea}>
-      <Stack />
+      <Stack>
+        {/* Hide header for index.tsx */}
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+      </Stack>
     </SafeAreaView>
   );
 }
