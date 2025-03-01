@@ -1,13 +1,35 @@
 import { Redirect } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
 import { useState } from "react";
-import { Button, Image, StyleSheet, Text, View } from "react-native";
+import { Button, Image, LayoutChangeEvent, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigationBarColor } from "../src/hooks/useNavigationBarColor"; // Import the hook
 
+// Keep the splash screen visible until the index page is ready
+SplashScreen.preventAutoHideAsync();
+
 export default function Index() {
+  const [isReady, setIsReady] = useState(false);
   const [continuePressed, setContinuePressed] = useState(false);
 
-  useNavigationBarColor("white"); // Ensures nav bar is white on splash screen
+  // Ensure navigation bar color is white
+  useNavigationBarColor("white");
+
+  // This runs only when the screen has finished rendering
+  const onLayout = async (event: LayoutChangeEvent) => {
+    console.log("Screen rendered:", event.nativeEvent.layout); // Debugging
+    if (!isReady) {
+      console.log("Attempting to hide Splash Screen...");
+      setIsReady(true);
+      
+      try {
+        await SplashScreen.hideAsync();
+        console.log("Splash Screen Hidden Successfully!");
+      } catch (error) {
+        console.error("Error hiding Splash Screen:", error);
+      }
+    }
+  };
 
   if (continuePressed) {
     return <Redirect href="/HomeScreen" />;
@@ -15,7 +37,7 @@ export default function Index() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
+      <View style={styles.container} onLayout={onLayout}>
         <Image source={require("../assets/images/icon.png")} style={styles.image} />
         <Text style={styles.title}>Welcome to VitaCheck!</Text>
         <Text style={styles.subtitle}>Your health companion app.</Text>
