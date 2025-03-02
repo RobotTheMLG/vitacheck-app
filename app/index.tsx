@@ -1,7 +1,6 @@
-import { Redirect } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useState } from "react";
-import { Alert, Button, Image, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDelay } from "../src/hooks/useDelay"; // Import the hook
 import { useNavigationBarColor } from "../src/hooks/useNavigationBarColor"; // Import the hook
@@ -11,7 +10,6 @@ SplashScreen.preventAutoHideAsync();
 
 export default function Index() {
   const [isReady, setIsReady] = useState(false);
-  const [continuePressed, setContinuePressed] = useState(false);
   const delay = useDelay(); // Initialize the delay function
 
   // Ensure navigation bar color is white
@@ -45,17 +43,12 @@ export default function Index() {
     }
   };
 
-  if (continuePressed) {
-    return <Redirect href="/HomeScreen" />;
-  }
-
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container} onLayout={onLayout}>
         <Image source={require("../assets/images/icon.png")} style={styles.image} />
         <Text style={styles.title}>Welcome to VitaCheck!</Text>
         <Text style={styles.subtitle}>Your health companion app.</Text>
-        <Button title="Continue" onPress={() => setContinuePressed(true)} />
       </View>
     </SafeAreaView>
   );
