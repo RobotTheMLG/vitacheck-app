@@ -49,6 +49,10 @@ export default function RootLayout() {
             ),
           }}
         />
+        <Tabs.Screen
+          name="BarcodeScannerScreen"
+          options={{ href: null }} // Hides screen from bottom tab bar
+        />
       </Tabs>
     </SafeAreaView>
   );

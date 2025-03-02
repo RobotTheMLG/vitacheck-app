@@ -18,20 +18,19 @@ export default function Index() {
   // This runs only when the screen has finished rendering
   const onLayout = async () => {
 
-    console.log("Screen rendered!");
-
     if (!isReady) {
+      console.log("Screen rendered!");
       await delay(200); // Delay for 200ms
       console.log("Attempting to hide Splash Screen...");
 
       setIsReady(true);
       
       try {
-        await delay(300); // Delay for 300ms
+        await delay(400); // Delay for 400ms
         await SplashScreen.hideAsync();
         console.log("Splash Screen Hidden Successfully!");
       } catch (error) {
-        await delay(300); // Delay for 300ms
+        await delay(400); // Delay for 400ms
         console.error("Error hiding Splash Screen:", error);
 
         // Show an alert if hiding the splash screen fails
