@@ -1,8 +1,9 @@
 import { Redirect } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useState } from "react";
-import { Button, Image, LayoutChangeEvent, StyleSheet, Text, View } from "react-native";
+import { Alert, Button, Image, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useDelay } from "../src/hooks/useDelay"; // Import the hook
 import { useNavigationBarColor } from "../src/hooks/useNavigationBarColor"; // Import the hook
 
 // Keep the splash screen visible until the index page is ready
@@ -11,22 +12,35 @@ SplashScreen.preventAutoHideAsync();
 export default function Index() {
   const [isReady, setIsReady] = useState(false);
   const [continuePressed, setContinuePressed] = useState(false);
+  const delay = useDelay(); // Initialize the delay function
 
   // Ensure navigation bar color is white
   useNavigationBarColor("white");
 
   // This runs only when the screen has finished rendering
-  const onLayout = async (event: LayoutChangeEvent) => {
-    console.log("Screen rendered:", event.nativeEvent.layout); // Debugging
+  const onLayout = async () => {
+
+    console.log("Screen rendered!");
+
     if (!isReady) {
+      await delay(200); // Delay for 200ms
       console.log("Attempting to hide Splash Screen...");
+
       setIsReady(true);
       
       try {
+        await delay(300); // Delay for 300ms
         await SplashScreen.hideAsync();
         console.log("Splash Screen Hidden Successfully!");
       } catch (error) {
+        await delay(300); // Delay for 300ms
         console.error("Error hiding Splash Screen:", error);
+
+        // Show an alert if hiding the splash screen fails
+        Alert.alert(
+          "Error",
+          "Something went wrong while hiding the splash screen."
+        );
       }
     }
   };
