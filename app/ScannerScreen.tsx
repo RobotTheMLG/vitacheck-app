@@ -1,17 +1,40 @@
-import { useRouter } from "expo-router";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { CameraView } from "expo-camera";
+import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import ScannerOverlay from "../src/components/ScannerOverlay";
+import { useScanner } from "../src/hooks/useScanner";
 
 export default function ScannerScreen() {
-  const router = useRouter();
+  const { hasPermission, scanned, setScanned, handleBarCodeScanned } = useScanner();
+
+  if (hasPermission === null) {
+    return (
+      <View style={styles.centered}>
+        <Text>Requesting camera permission...</Text>
+      </View>
+    );
+  }
+  if (hasPermission === false) {
+    return (
+      <View style={styles.centered}>
+        <Text>No access to camera</Text>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
-        <Text style={styles.title}>Scan a code to get started.</Text>
-        <Text style={styles.subtitle}>Tap the button below.</Text>
-        <Button title="Open Scanner" onPress={() => router.push("/BarcodeScannerScreen")} />
-      </View>
+      {/* Fullscreen Camera */}
+      <CameraView
+        barcodeScannerSettings={{
+          barcodeTypes: ["qr", "ean13", "upc_a"],
+        }}
+        onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
+        style={StyleSheet.absoluteFillObject}
+      />
+
+      {/* ✅ Transparent Overlay */}
+      <ScannerOverlay />
     </SafeAreaView>
   );
 }
@@ -19,21 +42,10 @@ export default function ScannerScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "white", // Background for the whole screen
   },
-  container: {
+  centered: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: "gray",
-    marginBottom: 20,
   },
 });

@@ -1,33 +1,26 @@
-import { useLocalSearchParams } from "expo-router";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { FoodItem } from "../src/types/FoodItem";
+import { useScannerContext } from "../src/context/ScannerContext";
 
 export default function FoodDetailsScreen() {
-  const params = useLocalSearchParams();
+  const { scannedItem } = useScannerContext();
 
-  // Convert query params back into a FoodItem object
-  const foodItem: FoodItem = {
-    barcode: params.barcode as string,
-    name: params.name as string,
-    brand: params.brand as string,
-    calories: Number(params.calories), // Convert back to number
-    nutrients: {
-      protein: Number(params.protein),
-      fat: Number(params.fat),
-      carbs: Number(params.carbs),
-    },
-    imageUrl: params.imageUrl ? (params.imageUrl as string) : undefined,
-  };
+  if (!scannedItem) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.errorText}>No food item scanned yet.</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
-      {foodItem.imageUrl && <Image source={{ uri: foodItem.imageUrl }} style={styles.image} />}
-      <Text style={styles.title}>{foodItem.name}</Text>
-      <Text>Brand: {foodItem.brand}</Text>
-      <Text>Calories: {foodItem.calories} kcal</Text>
-      <Text>Protein: {foodItem.nutrients.protein}g</Text>
-      <Text>Fat: {foodItem.nutrients.fat}g</Text>
-      <Text>Carbs: {foodItem.nutrients.carbs}g</Text>
+      {scannedItem.imageUrl && <Image source={{ uri: scannedItem.imageUrl }} style={styles.image} />}
+      <Text style={styles.title}>{scannedItem.name}</Text>
+      <Text>Brand: {scannedItem.brand}</Text>
+      <Text>Calories: {scannedItem.calories} kcal</Text>
+      <Text>Protein: {scannedItem.protein}g</Text>
+      <Text>Fat: {scannedItem.fat}g</Text>
+      <Text>Carbs: {scannedItem.carbs}g</Text>
     </View>
   );
 }
@@ -37,6 +30,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    padding: 20,
   },
   image: {
     width: 150,
@@ -46,5 +40,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: "bold",
+    textAlign: "center",
+  },
+  errorText: {
+    fontSize: 18,
+    color: "red",
   },
 });
