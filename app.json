@@ -10,14 +10,20 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.davidparraorg.vitacheckapp"
+      "bundleIdentifier": "com.davidparraorg.vitacheckapp",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.davidparraorg.vitacheckapp"
+      "package": "com.davidparraorg.vitacheckapp",
+      "permissions": [
+        "android.permission.CAMERA"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -33,8 +39,7 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ],
-      "expo-barcode-scanner"
+      ]
     ],
     "experiments": {
       "typedRoutes": true

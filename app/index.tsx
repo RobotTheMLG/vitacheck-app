@@ -1,6 +1,6 @@
 import * as SplashScreen from "expo-splash-screen";
 import { useState } from "react";
-import { Alert, Image, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, Platform, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDelay } from "../src/hooks/useDelay"; // Import the hook
 import { useNavigationBarColor } from "../src/hooks/useNavigationBarColor"; // Import the hook
@@ -12,8 +12,10 @@ export default function Index() {
   const [isReady, setIsReady] = useState(false);
   const delay = useDelay(); // Initialize the delay function
 
-  // Ensure navigation bar color is white
-  useNavigationBarColor("white");
+  // Ensure navigation bar color is white on Android
+  if (Platform.OS === "android") {
+    useNavigationBarColor("white");
+  }
 
   // This runs only when the screen has finished rendering
   const onLayout = async () => {
