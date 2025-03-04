@@ -1,66 +1,19 @@
-import * as SplashScreen from "expo-splash-screen";
-import { useRef, useState } from "react";
-import { Alert, Image, Platform, StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useDelay } from "../src/hooks/useDelay"; // Import the hook
-import { useNavigationBarColor } from "../src/hooks/useNavigationBarColor"; // Import the hook
-
-// Keep the splash screen visible until the index page is ready
-SplashScreen.preventAutoHideAsync();
+import { Image, StyleSheet, Text, View } from "react-native";
+import { useSplashScreen } from "../src/hooks/useSplashScreen"; // Import splash screen hook
 
 export default function Index() {
-  const [isReady, setIsReady] = useState(false);
-  const delay = useDelay(); // Initialize the delay function
-  const layoutHandled = useRef(false); // Prevent onLayout from running multiple times
-
-  // Ensure navigation bar color is white on Android
-  if (Platform.OS === "android") {
-    useNavigationBarColor("white");
-  }
-
-  // Ensure onLayout only runs once
-  const onLayout = async () => {
-    if (layoutHandled.current) return; // Prevent multiple executions
-    layoutHandled.current = true; // Mark as handled
-
-    console.log("Screen rendered!");
-    await delay(200); // Delay for 200ms
-    console.log("Attempting to hide Splash Screen...");
-
-    setIsReady(true);
-
-    try {
-      await delay(400); // Delay for 400ms
-      await SplashScreen.hideAsync();
-      console.log("Splash Screen Hidden Successfully!");
-    } catch (error) {
-      await delay(400); // Delay for 400ms
-      console.error("Error hiding Splash Screen:", error);
-
-      // Show an alert if hiding the splash screen fails
-      Alert.alert(
-        "Error",
-        "Something went wrong while hiding the splash screen."
-      );
-    }
-  };
+  const { isReady, onLayout } = useSplashScreen(); // Use the splash screen logic
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container} onLayout={onLayout}>
-        <Image source={require("../assets/images/icon.png")} style={styles.image} />
-        <Text style={styles.title}>Welcome to VitaCheck!</Text>
-        <Text style={styles.subtitle}>Your health companion app.</Text>
-      </View>
-    </SafeAreaView>
+    <View style={styles.container} onLayout={onLayout}>
+      <Image source={require("../assets/images/icon.png")} style={styles.image} />
+      <Text style={styles.title}>Welcome to VitaCheck!</Text>
+      <Text style={styles.subtitle}>Your health companion app.</Text>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: "white", // Background for the whole screen
-  },
   container: {
     flex: 1,
     justifyContent: "center",

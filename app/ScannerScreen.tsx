@@ -33,7 +33,7 @@ export default function ScannerScreen() {
         style={StyleSheet.absoluteFillObject}
       />
 
-      {/* ✅ Transparent Overlay */}
+      {/* Transparent Overlay */}
       <ScannerOverlay />
     </SafeAreaView>
   );

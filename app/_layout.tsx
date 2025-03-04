@@ -1,19 +1,32 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
-import { StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Platform, StyleSheet } from "react-native";
+import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
 import { ScannerProvider } from "../src/context/ScannerContext"; // Import ScannerProvider
+import { useNavigationBarColor } from "../src/hooks/useNavigationBarColor"; // Import the hook
 
 export default function RootLayout() {
+  // Ensure navigation bar color is white on Android
+  if (Platform.OS === "android") {
+    useNavigationBarColor("white");
+  }
+
+  // Initialize SafeAreaInsets
+  const insets = useSafeAreaInsets();
+
   return (
-    // Wrap the Tabs component with ScannerProvider to provide the context to all children
-    <ScannerProvider> 
-      <SafeAreaView style={styles.safeArea}>
+    <SafeAreaProvider>
+      <ScannerProvider> 
         <Tabs
           screenOptions={{
             tabBarActiveTintColor: "#4CAF50",
             tabBarInactiveTintColor: "gray",
-            tabBarStyle: { backgroundColor: "white", height: 60 },
+            tabBarStyle: [
+              styles.tabBar,
+              {
+                height: Platform.OS === "ios" ? 55 + insets.bottom : 65 // Add bottom insets for iOS
+              },
+            ],
           }}
         >
           <Tabs.Screen
@@ -53,14 +66,13 @@ export default function RootLayout() {
             }}
           />
         </Tabs>
-      </SafeAreaView>
-    </ScannerProvider>
+      </ScannerProvider>
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: "white",
+  tabBar: {
+    backgroundColor: "white"
   },
 });

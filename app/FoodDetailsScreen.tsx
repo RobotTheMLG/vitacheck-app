@@ -18,9 +18,9 @@ export default function FoodDetailsScreen() {
       <Text style={styles.title}>{scannedItem.name}</Text>
       <Text>Brand: {scannedItem.brand}</Text>
       <Text>Calories: {scannedItem.calories} kcal</Text>
-      <Text>Protein: {scannedItem.protein}g</Text>
-      <Text>Fat: {scannedItem.fat}g</Text>
-      <Text>Carbs: {scannedItem.carbs}g</Text>
+      <Text>Protein: {scannedItem.nutrients.protein}g</Text>
+      <Text>Fat: {scannedItem.nutrients.fat}g</Text>
+      <Text>Carbs: {scannedItem.nutrients.carbs}g</Text>
     </View>
   );
 }
